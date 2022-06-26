@@ -5,8 +5,13 @@
     let fileinput;
     let src;
     let text;
+    let displayText;
 
     const onFileSelected = (e) => {
+        src = null;
+        text = null;
+        displayText = true;
+
         let image = e.target.files[0];
         let reader = new FileReader();
         reader.readAsDataURL(image);
@@ -21,7 +26,10 @@
             body: dataArray,
         })
             .then((response) => response.json())
-            .then(({ data }) => (text = data))
+            .then(({ data }) => {
+                text = data;
+                displayText = null;
+            })
             .catch((error) => {
                 console.log(error);
                 console.log("API Call Failed");
@@ -36,6 +44,7 @@
     {:else}
         <img src="placeholder.png" alt="placeholder" id="image-space" />
     {/if}
+    {#if displayText}<p>Loading...</p>{/if}
     {#if text}
         <ol>
             <li>{text[0]}</li>
