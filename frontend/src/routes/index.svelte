@@ -16,13 +16,14 @@
         const dataArray = new FormData();
         dataArray.append("file", image);
 
-        fetch("http://127.0.0.1:8000", {
+        fetch("http://localhost:3001", {
             method: "POST",
             body: dataArray,
         })
             .then((response) => response.json())
             .then(({ data }) => (text = data))
             .catch((error) => {
+                console.log(error);
                 console.log("API Call Failed");
             });
     };
