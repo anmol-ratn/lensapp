@@ -3,7 +3,7 @@ services:
     container_name: frontend
     build: ./frontend
     ports:
-      - 8010:3000
+      - 80:3000
   backend:
     container_name: backend
     build: ./backend
