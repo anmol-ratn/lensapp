@@ -46,12 +46,13 @@
     <Button
         on:click={() => {
             fileinput.click();
-        }}>Upload Image <Icon name="upload" /></Button
+        }}>Upload/Capture Image <Icon name="upload" /></Button
     >
     <input
         style="display:none"
         type="file"
-        accept=".jpg, .jpeg, .png"
+        accept="image/*"
+        capture
         on:change={(e) => onFileSelected(e)}
         bind:this={fileinput}
     />
