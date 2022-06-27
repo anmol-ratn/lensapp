@@ -33,6 +33,7 @@ async def root(file: UploadFile = File(...)):
     model.eval()
     output = model(torch.unsqueeze(preprocess(image), 0))
 
+    # Reads the thousand labels of imagenet dataset from the accompanied file
     with open("imagenet_labels.json", "r") as f:
         labels = json.load(f)
 

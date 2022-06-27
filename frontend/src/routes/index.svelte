@@ -10,9 +10,11 @@
     let displayText;
     let mobileCheck = false;
 
+    // Simple code to detect whether the device is Desktop or Phone
+    // Phones/Tablets have additional capability to capture image using phone camera
     onMount(async () => {
         mobileCheck = navigator.userAgent.match(
-            /(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i
+            /(iPad)|(iPhone)|(android)|(webOS)/i
         );
     });
 
