@@ -1,6 +1,8 @@
 # lensapp
 ### Web App that mimics Google Lens
 
+Visit http://lensapp.live to see it in action.
+
 To host the app locally, you need to have docker running on your machine
 Then run the commands below:
 ```
