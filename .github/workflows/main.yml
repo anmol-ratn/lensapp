@@ -3,6 +3,8 @@ name: Lens App Auto Run
 on:
   push:
     branches: [ "main" ]
+  
+  workflow_dispath:
 
 jobs:
   run:
