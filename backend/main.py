@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import torch
 import json
-from torchvision.models import resnet18
-from torchvision import transforms
+from torchvision.models import resnet18, ResNet18_Weights
 import uvicorn
 
 app = FastAPI()
@@ -16,22 +15,19 @@ app.add_middleware(
 )
 
 
-@app.post("/")
-async def root(file: UploadFile = File(...)):
-    image = Image.open(file.file).convert("RGB")
+def read_rgb_image_from_file(file):
+    return Image.open(file).convert("RGB")
 
-    preprocess = transforms.Compose(
-        [
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ]
-    )
 
-    model = resnet18(pretrained=True)
+def get_model_inference(model_arch, weights, image):
+    model = model_arch(weights=weights)
     model.eval()
-    output = model(torch.unsqueeze(preprocess(image), 0))
+    processed_image = weights.transforms()(image)
+    input = torch.unsqueeze(processed_image, 0)  # Adds extra dimension to image
+    return model(input)
+
+
+def get_top_three_labels_with_percentage(output):
 
     # Reads the thousand labels of imagenet dataset from the accompanied file
     with open("imagenet_labels.json", "r") as f:
@@ -45,7 +41,15 @@ async def root(file: UploadFile = File(...)):
         for idx in indices[0][:3]
     ]
 
-    return {"data": li}
+    return li
+
+
+@app.post("/")
+async def root(file: UploadFile = File(...)):
+    image = read_rgb_image_from_file(file.file)
+    output = get_model_inference(resnet18, ResNet18_Weights.DEFAULT, image)
+    top_three_results = get_top_three_labels_with_percentage(output)
+    return {"data": top_three_results}
 
 
 if __name__ == "__main__":
