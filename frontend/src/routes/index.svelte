@@ -84,10 +84,6 @@
         >
     </div>
 
-    <p id="footer" class="text">
-        Made with Love | Powered by Chai and Chocolate | Anmol Ratn
-    </p>
-
     <input
         style="display:none"
         type="file"
@@ -159,10 +155,5 @@
         margin-top: 2em;
         margin-left: 0.5rem;
         margin-right: 0.5rem;
-    }
-
-    #footer {
-        font-size: 0.75em;
-        margin-top: 4em;
     }
 </style>
